@@ -77,13 +77,13 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 
         timePicker.clockContainer.am.click(function (e) {
             if (that.selected.getT() !== 'AM') that.setT('am');
-            this.setValue(this.selected);
+            that.setValue(that.selected);
             e.stopPropagation();
         });
 
         timePicker.clockContainer.pm.click(function (e) {
             if (that.selected.getT() !== 'PM') that.setT('pm');
-            this.setValue(this.selected);
+            that.setValue(that.selected);
             e.stopPropagation();
         });
 		timePicker.timeContainer.hour.click(function (e) {
@@ -96,14 +96,21 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 		    e.stopPropagation();
 		});
 
-		$(document).click(function () {
-            that.hide();
+		$(document).click(function (e) {
+			that.hide();
         });
 
+
 		this.input.click(function (e) {
+			$('.atp-container').addClass('animate');
             that.show();
             e.stopPropagation();
-        }).prop('readonly', that.config.readOnly);;
+        }).prop('readonly', that.config.readOnly);
+
+
+		$('.atp-container').click(function (e) {
+			e.stopPropagation();
+        });
 
 
 		if (this.input.val() !== '') {
@@ -116,8 +123,14 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 			this.time = new Time(time.hour, time.minute);
 		}
 
+		$("body").on('click',".atp-digit span",function (e){
+		  	e.stopPropagation();
+		});
+
 		this.resetSelected();
 		this.switchView(this.activeView);
+
+		this.hide();
     };
 
     AyullaTimePicker.prototype = {
@@ -138,13 +151,14 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 				var value = i + 1, deg = (120 + (i * 30)) % 360,
 					hour = $('<div class="atp-digit rotate-' + deg + '" data-hour="' + value + '"><span>'+ value +'</span></div>');
 
-				hour.find('span').click(function () {
+				hour.find('span').click(function (e) {
 					var _data = parseInt($(this).parent().data('hour')),
 						_selectedT = that.selected.getT(),
 						_value = (_data + ((_selectedT === 'PM' && _data < 12) || (_selectedT === 'AM' && _data === 12) ? 12 : 0)) % 24;
 
 					that.setHour(_value);
 					that.switchView('minutes');
+					e.stopPropagation();
 				});
 
 				clockContainer.clock.hours.append(hour);
@@ -158,8 +172,9 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 				if (i % 5 === 0) minute.addClass('marker').html('<span>' + min + '</span>');
 				else minute.html('<span></span>');
 
-				minute.find('span').click(function () {
+				minute.find('span').click(function (e) {
 					that.setMinute($(this).parent().data('minute'));
+					e.stopPropagation();
 				});
 
 				clockContainer.clock.minutes.append(minute);
@@ -233,12 +248,10 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 		hide : function () {
 			var that = this;
 
-			that.timepicker.overlay.addClass('animate');
-			that.timepicker.wrapper.addClass('animate');
+			that.timepicker.container.addClass('animate');
 			setTimeout(function() {
 				that.switchView('hours');
-				that.timepicker.overlay.addClass('hidden').removeClass('animate');
-				that.timepicker.wrapper.removeClass('animate');
+				//that.timepicker.container.addClass('hidden').removeClass('animate');
 
 				$('body').removeAttr('mdtimepicker-display');
 
@@ -254,10 +267,13 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
         show : function () {
 			var that = this;
 
+
+
 			if (that.input.val() === '') {
 				var time = that.getSystemTime();
 				this.time = new Time(time.hour, time.minute);
 			}
+			$(that.timepicker.container).css({'left': that.input.offset().left + 175 + 'px', 'top': that.input.offset().top + that.input.height() + 10 + 'px'});
 
 			that.resetSelected();
 
@@ -307,7 +323,7 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 				that.timepicker.clockContainer.clock.minutes.removeClass('animate');
 			}, view === 'minutes' ? 20 : 300);
 
-
+			this.setValue(this.selected);
 		},
 
         resetSelected : function () {
