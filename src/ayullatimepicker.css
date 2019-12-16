@@ -2,16 +2,11 @@
 
 body[mdtimepicker-display='on'] { overflow: hidden; }
 
-.ayullatimepicker.hidden { display: none; }
-.ayullatimepicker.animate { background-color: transparent; }
 .atp-container {
 	position: absolute;
 	display: flex;
-	left: 50%;
-	top: 24px;
     width: 350px;
     height: 220px;
-	opacity: 1;
     font-family: Muli, sans-serif;
 	user-select: none;
 	border-radius: 2px;
@@ -21,9 +16,10 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 	overflow: hidden;
     border-radius: 10px;
 }
+
 .atp-container.animate {
     transform: translateX(-50%) scale(1.05);
-    opacity: 0;
+    display: none;
 }
 .atp-time-container {
 	display: flex;
@@ -46,6 +42,7 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 }
 
 .atp-time-container .atp-time-hour.active, .atp-time-container .atp-time-minute.active { color: #fafafa; }
+.atp-time-container .atp-time-hour, .atp-time-container .atp-time-minute { cursor: pointer; }
 .atp-time-container .atp-time-meridiem {
     font-size: 16px;
     padding-left: 5px;
