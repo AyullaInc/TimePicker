@@ -29,7 +29,7 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 	font-size: 35px;
 	color: rgba(255,255,255,.5);
 	text-align: center;
-	background-color: #1565c0;
+	background-color: #00449D;
     width:120px;
 }
 .atp-time-container > span {
@@ -84,7 +84,7 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 .atp-clock .atp-am, .atp-clock .atp-pm:hover { background-color: rgba(0,0,0,.1); }
 .atp-clock .atp-am.active, .atp-clock .atp-pm.active {
     color: #fafafa;
-    background-color: #1565c0;
+    background-color: #00449D;
 }
 .atp-clock .atp-clock-dot {
 	position: absolute;
@@ -92,7 +92,7 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 	left: 50%;
 	transform: translate(-50%,-50%);
 	padding: 4px;
-	background-color: #1565c0;
+	background-color: #00449D;
 	border-radius: 50%;
 }
 
@@ -138,7 +138,7 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 }
 .atp-digit.active span,
 .atp-clock .atp-digit span:hover {
-    background-color: #1565c0 !important;
+    background-color: #00449D !important;
     color: #fff;
     z-index: 2;
 }
@@ -151,7 +151,7 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 	right: 0;
 	height: 2px;
 	width: calc(100% - 40px);
-	background-color: #1565c0;
+	background-color: #00449D;
 }
 
 .atp-clock .atp-minute-container .atp-digit { font-size: 13px; }
@@ -234,19 +234,3 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 .atp-digit.rotate-348 { transform: rotate(348deg); } .atp-digit.rotate-348 span { transform: rotate(-348deg); }
 .atp-digit.rotate-354 { transform: rotate(354deg); } .atp-digit.rotate-354 span { transform: rotate(-354deg); }
 .atp-digit.rotate-360 { transform: rotate(360deg); } .atp-digit.rotate-360 span { transform: rotate(-360deg); }
-
-.atp-buttons {
-	margin: 0 -10px -10px;
-	text-align: right;
-}
-.atp-button {
-	display: inline-block;
-	padding: 0 16px;
-	min-width: 50px;
-	text-align: center;
-	text-transform: uppercase;
-	line-height: 32px;
-	font-weight: 500;
-	cursor: pointer;
-	color: #1565c0;
-}
