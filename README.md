@@ -2,7 +2,7 @@
 
 A stunning jquery plugin based on vuetifyjs time picker component.
 
-![Time picker demo](https://share.getcloudapp.com/9ZuNjQ45)
+![Time picker demo](demo.gif)
 
 ## Requirement
 JQuery version 3 and above is required. 
