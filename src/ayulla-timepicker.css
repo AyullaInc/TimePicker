@@ -234,3 +234,17 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 .atp-digit.rotate-348 { transform: rotate(348deg); } .atp-digit.rotate-348 span { transform: rotate(-348deg); }
 .atp-digit.rotate-354 { transform: rotate(354deg); } .atp-digit.rotate-354 span { transform: rotate(-354deg); }
 .atp-digit.rotate-360 { transform: rotate(360deg); } .atp-digit.rotate-360 span { transform: rotate(-360deg); }
+
+@media screen and (max-width: 800px) {
+	.atp-container {
+		flex-direction: column;
+		height: 300px;s
+    	width: 230px;
+		margin-left: -60px;
+	}
+
+	.atp-time-container {
+		width: 100%;
+		height: 100px;
+	}
+}
