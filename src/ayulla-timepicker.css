@@ -235,10 +235,10 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 .atp-digit.rotate-354 { transform: rotate(354deg); } .atp-digit.rotate-354 span { transform: rotate(-354deg); }
 .atp-digit.rotate-360 { transform: rotate(360deg); } .atp-digit.rotate-360 span { transform: rotate(-360deg); }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
 	.atp-container {
 		flex-direction: column;
-		height: 300px;s
+		height: 300px;
     	width: 230px;
 		margin-left: -60px;
 	}
