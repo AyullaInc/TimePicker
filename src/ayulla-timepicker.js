@@ -113,10 +113,10 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
         });
 
 
-		if (this.input.val() !== '') {
-			var time = this.parseTime(this.input.val());
+		if (this.config.hour != -1) {
+			//var time = this.parseTime(this.input.val());
 
-			this.setValue(time);
+			this.time = new Time(this.config.hour, this.config.minute);
 		} else {
 			var time = this.returnSystemTime();
 
@@ -371,7 +371,10 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 		format: 'h:mm tt',			// format of the input value
 		theme: 'blue',				// theme of the timepicker
 		readOnly: true,				// determines if input is readonly
-		hourPadding: false			// determines if display value has zero padding for hour value less than 10 (i.e. 05:30 PM); 24-hour format has padding by default
+		hourPadding: false,			// determines if display value has zero padding for hour value less than 10 (i.e. 05:30 PM); 24-hour format has padding by default
+        hour: -1,
+        minute: -1,
+        meridiem: ''
 	};
 
 }(jQuery));
