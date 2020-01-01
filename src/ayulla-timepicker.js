@@ -256,7 +256,6 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 				$('body').removeAttr('mdtimepicker-display');
 
 				that.visible = false;
-				that.input.focus();
 			}, 300);
 		},
 
