@@ -16,6 +16,7 @@ body[mdtimepicker-display='on'] { overflow: hidden; }
 	overflow: hidden;
     border-radius: 10px;
     z-index: 2000;
+	background: white;
 }
 
 .atp-container.animate {
