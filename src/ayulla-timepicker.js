@@ -237,6 +237,8 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 			var time = typeof value === 'string' ? this.parseTime(value, this.config.format) : value;
 
 			this.time = new Time(time.hour, time.minute);
+            this.selected.setHour(time.hour);
+            this.selected.setMinutes(time.minute);
 
 			var formatted = this.returnFormattedTime();
 
