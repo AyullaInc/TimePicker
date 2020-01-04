@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Muli');
 
-body[mdtimepicker-display='on'] { overflow: hidden; }
+body[ayullatimepicker-display='on'] { overflow: hidden; }
 
 .atp-container {
 	position: absolute;

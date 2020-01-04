@@ -113,13 +113,13 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
         });
 
 
-		if (this.config.hour != -1) {
-			//var time = this.parseTime(this.input.val());
-
+		if (that.input.val() !== '') {
+            var time = that.parseTime(that.input.val(), that.config.format);
+            that.setValue(time);
+        } else if (this.config.hour != -1) {
 			this.time = new Time(this.config.hour, this.config.minute);
 		} else {
 			var time = this.returnSystemTime();
-
 			this.time = new Time(time.hour, time.minute);
 		}
 
@@ -234,7 +234,7 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
         setValue : function (value) {
 			if (typeof value === 'undefined') throw new Error('Expecting a value.');
 
-			var time = typeof value === 'string' ? this.parseTime(value) : value;
+			var time = typeof value === 'string' ? this.parseTime(value, this.config.format) : value;
 
 			this.time = new Time(time.hour, time.minute);
 
@@ -253,14 +253,63 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 				that.switchView('hours');
 				//that.timepicker.container.addClass('hidden').removeClass('animate');
 
-				$('body').removeAttr('mdtimepicker-display');
+				$('body').removeAttr('ayullatimepicker-display');
 
 				that.visible = false;
 			}, 300);
 		},
 
-        parseTime : function (time) {
+        parseTime : function (time, tFormat) {
+            var that = this, format = typeof tFormat === 'undefined' ? that.config.format : tFormat,
+                hLength = (format.match(/h/g) || []).length,
+                is24Hour = hLength > 1,
+                mLength = (format.match(/m/g) || []).length, tLength = (format.match(/t/g) || []).length,
+                timeLength = time.length,
+                fH = format.indexOf('h'), lH = format.lastIndexOf('h'),
+                hour = '', min = '', t = '';
 
+            // Parse hour
+            if (that.config.hourPadding || is24Hour) {
+                hour = time.substr(fH, 2);
+            } else {
+                var prev = format.substring(fH - 1, fH), next = format.substring(lH + 1, lH + 2);
+
+                if (lH === format.length - 1) {
+                    hour = time.substring(time.indexOf(prev, fH - 1) + 1, timeLength);
+                } else if (fH === 0) {
+                    hour = time.substring(0, time.indexOf(next, fH));
+                } else {
+                    hour = time.substring(time.indexOf(prev, fH - 1) + 1, time.indexOf(next, fH + 1));
+                }
+            }
+
+            format = format.replace(/(hh|h)/g, hour);
+
+            var fM = format.indexOf('m'), lM = format.lastIndexOf('m'),
+                fT = format.indexOf('t');
+
+            // Parse minute
+            var prevM = format.substring(fM - 1, fM), nextM = format.substring(lM + 1, lM + 2);
+
+            if (lM === format.length - 1) {
+                min = time.substring(time.indexOf(prevM, fM - 1) + 1, timeLength);
+            } else if (fM === 0) {
+                min = time.substring(0, 2);
+            } else {
+                min = time.substr(fM, 2);
+            }
+
+            // Parse t (am/pm)
+            if (is24Hour) t = parseInt(hour) > 11 ? (tLength > 1 ? 'PM' : 'pm') : (tLength > 1 ? 'AM' : 'am');
+            else t = time.substr(fT, 2);
+
+            var isPm = t.toLowerCase() === 'pm',
+                outTime = new Time(parseInt(hour), parseInt(min));
+            if ((isPm && parseInt(hour) < 12) || (!isPm && parseInt(hour) === 12)) {
+                outTime.invert();
+            }
+
+            return outTime;
         },
 
         show : function () {
@@ -276,7 +325,7 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 
 			that.resetSelected();
 
-			$('body').attr('mdtimepicker-display', 'on');
+			$('body').attr('ayullatimepicker-display', 'on');
 
 			that.timepicker.container.removeClass('hidden').addClass('animate');
 			setTimeout(function() {
@@ -346,9 +395,12 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
     };
 
     $.fn.AyullaTimePicker = function (config) {
-		return $(this).each(function (idx, el) {
 
-			var picker = $(this).data('AyullaTimePicker');
+        var picker;
+
+		this.each(function (idx, el) {
+
+			picker = $(this).data('AyullaTimePicker');
 
 			options = $.extend({}, $.fn.AyullaTimePicker.defaults, $(this).data(), typeof config === 'object' && config);
 
@@ -363,14 +415,30 @@ if (typeof jQuery === 'undefined') { throw new Error('AyullaTimePicker requires 
 				if (picker.visible) picker.hide();
 			});
 		});
+
+        this.setTime = function(time) {
+            var timeArray = time.split(" ");
+            var times = timeArray[0].split(":");
+            var finalTime = "";
+            if (timeArray[1] == "PM" || timeArray[1] == 'pm') {
+                finalTime += (parseInt(times[0]) + 12) + ":";
+            } else {
+                finalTime += (parseInt(times[0])) + ":";
+            }
+            finalTime += times[1] + " " + timeArray[1];
+            picker.setValue(finalTime);
+        };
+
+        return this;
+
 	};
 
 	$.fn.AyullaTimePicker.defaults = {
-		timeFormat: 'hh:mm:ss.000',	// format of the time value (data-time attribute)
-		format: 'h:mm tt',			// format of the input value
-		theme: 'blue',				// theme of the timepicker
-		readOnly: true,				// determines if input is readonly
-		hourPadding: false,			// determines if display value has zero padding for hour value less than 10 (i.e. 05:30 PM); 24-hour format has padding by default
+		timeFormat: 'hh:mm:ss.000',
+		format: 'h:mm tt',
+		theme: 'blue',
+		readOnly: true,
+		hourPadding: false,
         hour: -1,
         minute: -1,
         meridiem: ''
