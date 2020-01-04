@@ -11,12 +11,18 @@
         <input type="text" id="timepicker" name="">
         <input type="text" id="timepicker1" name="">
         <h2 style="margin-top: 30px">More text</h2>
+        <button>Set Time to 11 am</button>
     </div>
 
 
     <script>
-        $('#timepicker').AyullaTimePicker();
+        var picker = $('#timepicker').AyullaTimePicker();
         $('#timepicker1').AyullaTimePicker({hour: 12, minute: 34});
+
+        $('button').click(function() {
+            picker.setTime("11:00 am");
+        });
+
 
     </script>
 </body>
